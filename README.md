@@ -1,5 +1,5 @@
 # PorterStemmer
-An implementation of the Porter stemming algorithm, a process for removing the common morphological and inflectional endings from words in English.
+An implementation of the [Porter stemming algorithm](https://tartarus.org/martin/PorterStemmer/), a process for removing the common morphological and inflectional endings from words in English.
 
 [THE ALGORITHM](https://tartarus.org/martin/PorterStemmer/def.txt)
 
