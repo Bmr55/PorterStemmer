@@ -448,6 +448,10 @@ public class PorterStemmer
         else if(word.endsWith("ion"))
         {
             String stem = replaceSuffix(word, "ion", "");
+
+            if(stem.length() < 1)
+                return word;
+
             char lastLetter = stem.charAt(stem.length()-1);
             if(getMeasure(stem) > 1 && (lastLetter == 's' || lastLetter == 't'))
             {
