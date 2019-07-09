@@ -11,6 +11,10 @@ public class PorterStemmer
     public String stem(String word)
     {
         word = word.toLowerCase();
+        
+        if(word.length() < 3)
+            return word;
+        
         word = performStep1a(word);
         word = performStep1b(word);
         word = performStep1c(word);
