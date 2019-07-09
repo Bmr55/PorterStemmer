@@ -529,14 +529,13 @@ public class PorterStemmer
     
     private String performStep5b(String word)
     {
-        String stem = replaceSuffix(word, "e", "");
-        boolean endsWithDoubleConsonant = endsWithDoubleConsonant(stem, new char[] {});
-        char lastLetter = stem.charAt(stem.length()-1);
-        if(getMeasure(stem) > 1 && endsWithDoubleConsonant && lastLetter == 'l')
+        boolean endsWithDoubleConsonant = endsWithDoubleConsonant(word, new char[] {});
+        char lastLetter = word.charAt(word.length()-1);
+        if(getMeasure(word) > 1 && endsWithDoubleConsonant && lastLetter == 'l')
         {
-            return stem.substring(0, stem.length()-1);
+            return word.substring(0, word.length()-1);
         }
-        
+
         return word;
     }
     
