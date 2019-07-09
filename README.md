@@ -1,7 +1,7 @@
 # PorterStemmer
 An implementation of the [Porter stemming algorithm](https://tartarus.org/martin/PorterStemmer/), a process for removing the common morphological and inflectional endings from words in English.
 
-DISCLAIMER: This implementation is slower than others due to the use of immutable Strings instead of char arrays.
+**DISCLAIMER**: This implementation is slower than others due to the use of immutable Strings instead of char arrays.
 
 [THE ALGORITHM](https://tartarus.org/martin/PorterStemmer/def.txt)
 
