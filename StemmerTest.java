@@ -10,59 +10,48 @@ public class StemmerTest {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException 
+    public static void main(String[] args) throws FileNotFoundException, IOException
     {
-        PorterStemmer stemmer = new PorterStemmer();
-        
-        FileInputStream inputStream = null;
-        Scanner sc = null;
-        
-        // Holds correct word -> stem mappings 
-        HashMap<String, String> map = new HashMap<>();
-        
-        // Holds words to be tested with the stemmer
-        ArrayList inputWords = new ArrayList();
-        
-        try
+
+        PorterStemmer myStemmer = new PorterStemmer();
+        Stemmer trustedStemmer = new Stemmer();
+
+        // Holds list of 370,000+ English words
+        ArrayList<String> words = new ArrayList<>();
+
+        try (FileInputStream inputStream = new FileInputStream("words.txt");
+             Scanner sc = new Scanner(inputStream, "UTF-8"))
         {
-            inputStream = new FileInputStream("correctmappings.txt");
-            sc = new Scanner(inputStream, "UTF-8");
-            
-            while(sc.hasNextLine())
+
+            while (sc.hasNextLine())
             {
-                String line = sc.nextLine();
-                String[] pair = line.split(" ");
-                map.put(pair[0], pair[1]);
-                inputWords.add(pair[0]);
+                String word = sc.nextLine();
+                words.add(word);
             }
-            
+
             if (sc.ioException() != null)
                 throw sc.ioException();
         }
-        finally
+
+        int numFails = 0;
+        for(String word : words)
         {
-            if (inputStream != null)
-                inputStream.close();
-            
-            if(sc != null)
-                sc.close();
-        }
-        
-        for(int i = 0; i < inputWords.size(); i++)
-        {
-            String input = (String) inputWords.get(i);
-            String result = stemmer.stem(input);
-            String correctResult = map.get(input);
-            boolean correct = correctResult.equals(result);
-            
-            if(correct)
+            String myStem = myStemmer.stem(word);
+            char[] w = word.toCharArray();
+            trustedStemmer.add(w, w.length);
+            trustedStemmer.stem();
+            String correctStem = trustedStemmer.toString();
+
+            if(!myStem.equals(correctStem))
             {
-                System.out.println(input+" -> "+result+" PASS");
-            }
-            else
-            {
-                System.out.println(input+" -> "+result+" FAIL");
+                System.out.println("FAIL: " + word);
+                System.out.println("My Stemmer: "+ myStem);
+                System.out.println("Trusted Stemmer: "+ correctStem);
+                System.out.println();
+                numFails++;
             }
         }
-    }    
+
+        System.out.println("SUMMARY: The stemmer test finished with " + numFails + " failures.");
+    }
 }
